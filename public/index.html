@@ -1,0 +1,128 @@
+<html align="middle">
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+
+<script>
+	$("document").ready(function() {
+		$(".btn-primary").on("click", function() {
+			$.ajax({
+				url: '/item',
+				type: 'GET',
+				success: function(arr) {
+					$("p").html("");
+					for (var i = 0; i < arr.length; i += 1) {
+						$("p").append(arr[i].name + "\n");
+					};
+				},
+				error: function(err) {console.log(err);}
+			});
+		});
+		
+		$(".btn-success").on("click", function() {
+			$.ajax({
+				url: '/item',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					item: $("#new").val()
+				},
+				success: function(data) {
+					$("p").html("");
+					$(".btn-primary").click();
+				},
+				error: function(err) {console.log(err);}
+			});
+		});
+		
+		$(".btn-warning").on("click", function() {
+			$.ajax({
+				url: '/item',
+				type: 'PUT',
+				dataType: 'json',
+				data: {
+					original: $('#original').val(),
+					update: $('#update').val()
+				},
+				success: function(data) {
+					$("p").html("");
+					$(".btn-primary").click();
+				},
+				error: function(err) {console.log(err);}
+			});
+		});
+		
+		$(".btn-danger").on("click", function() {
+			$.ajax({
+				url: '/item',
+				type: 'DELETE',
+				success: function(data) {
+					$("p").html("All items deleted.");
+					$(".btn-primary").click();
+				},
+				error: function(err) {console.log(err);}
+			});
+		});
+		
+		$(".btn-primary").click();
+	});
+</script>
+
+<style>
+
+	body {
+		padding: 5%;
+	}
+	
+	.btn {
+		width: 200px;
+	}
+	
+	.well {
+		border-radius: 50px;
+	}
+	
+	h2, h5 {
+		font-family: HelveticaNeue-Light;
+	}
+	
+</style>
+
+<body>
+	<div class="well">
+		<h2> GET method </h2>
+		<h5><i> Gets all the users from the database. </i></h5>
+		<button class="btn btn-primary">GET</button>
+	</div>
+	
+	<div class="well">
+		<h2> POST method </h2>
+		<h5><i> Adds a new user to the database. </i></h5>
+		<input type="text" id="new" class="form-control" placeholder="Type new element here..."><br>
+		<button class="btn btn-success">POST</button>
+	</div>
+	
+	<div class="well">
+		<h2> PUT method </h2>
+		<h5><i> Updates a user in the database. </i></h5>
+		<input type="text" id="original" class="form-control" placeholder="Type element here..."><br>
+		<input type="text" id="update" class="form-control" placeholder="Type updated element here..."><br>
+		<button class="btn btn-warning">PUT</button>
+	</div>
+	
+	<div class="well">
+		<h2> DELETE method </h2>
+		<h5><i> Deletes all the users from the database. </i></h5>
+		<button class="btn btn-danger">DELETE</button>
+	</div>
+	
+	<div class="well">
+		<h2> Users </h2>
+		<h5><i> All the users are displayed here. </i></h5>
+		<p></p>
+	</div>
+</body>
+
+</html>
